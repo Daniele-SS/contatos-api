@@ -4,15 +4,15 @@ export async function getContatos() {
     const response = await fetch (URL)
 
     //Primeira opção para criar o if else
-    // if(!response.ok) throw new Error('Erro ao buscar contatos') //Se não estiver OK é porque deu erro. O '!' significa uma negativa no JavaScript
-    // return response.json()
+    if(!response.ok) throw new Error('Erro ao buscar contatos') //Se não estiver OK é porque deu erro. O '!' significa uma negativa no JavaScript
+    return response.json()
 
     //Segunda opção para criar o if else
-    if(!response.ok) {
-        return response.json()
-    } else {
-        throw new Error('Erro ao buscar contatos')
-    }
+    // if(!response.ok) {
+    //     return response.json()
+    // } else {
+    //     throw new Error('Erro ao buscar contatos')
+    // }
 }
 
 
