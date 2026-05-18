@@ -14,3 +14,13 @@ export async function getContatos() {
         throw new Error('Erro ao buscar contatos')
     }
 }
+
+
+export async function postContato(contato) {
+    const options = {
+        method : 'POST',
+        headers: {
+            'Content-Type': 'apllication/json'
+        }
+    }
+}
