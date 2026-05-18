@@ -44,7 +44,7 @@ export async function putContato(id, contato) {
     const response = await fetch(`${URL}/${id}`, options)
     if(!response.ok) throw new Error('Erro ao atualizar contato')
 
-    return response.json
+    return response.json()
 }
 
 
