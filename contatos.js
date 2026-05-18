@@ -21,6 +21,7 @@ export async function postContato(contato) {
         method : 'POST',
         headers: {
             'Content-Type': 'apllication/json'
-        }
+        },
+        body: JSON.stringify(contato)
     }
 }
