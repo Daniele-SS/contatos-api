@@ -2,7 +2,6 @@
 
 import { getContatos, postContato, putContato, deleteContato } from './contatos.js'
 
-const form = document.getElementById('form-contato')
 const inputNome     = document.getElementById('input-nome')
 const inputCelular  = document.getElementById('input-celular')
 const inputEmail    = document.getElementById('input-email')
@@ -18,27 +17,46 @@ function criarCard(contato) {
     card.classList.add('contact-card')
     card.dataset.id = contato.id
 
-    const avatar = contato.foto
-        ? `<img class="avatar" src="${contato.foto}" alt="${contato.nome}" />`
-        : `<div class="avatar-placeholder">${contato.nome.slice(0, 2).toUpperCase()}</div>`
+    let avatarEl
+    if (contato.foto) {
+        avatarEl = document.createElement('img')
+        avatarEl.classList.add('avatar')
+        avatarEl.src = contato.foto
+        avatarEl.alt = contato.nome
 
-    card.innerHTML = `
-        ${avatar}
-        <span class="card-name">${contato.nome}</span>
-        <span class="card-phone">${contato.celular}</span>
-        <span class="card-city">${contato.cidade ?? ''}</span>
-    `
+    } else {
+        avatarEl = document.createElement('div')
+        avatarEl.classList.add('avatar-placeholder')
+        avatarEl.textContent = contato.nome.slice(0, 2).toUpperCase()
+    }
+
+    const nome = document.createElement('span')
+    nome.classList.add('card-name')
+    nome.textContent = contato.nome
+
+    const telefone = document.createElement('span')
+    telefone.classList.add('card-phone')
+    telefone.textContent = contato.celular
+
+    const cidade = document.createElement('span')
+    cidade.classList.add('card-city')
+    cidade.textContent = contato.cidade ?? ''
+
+    card.append(avatarEl, nome, telefone, cidade)
     return card
 }
 
 async function carregarContatos() {
-    listaContatos.innerHTML = '<p style="color: var(--color-text-secondary); font-size:13px">Carregando...</p>'
+    const p = document.createElement('p')
+    p.textContent = 'Carregando...'
+    listaContatos.replaceChildren(p)
+
     try {
         const contatos = await getContatos()
-        listaContatos.innerHTML = ''
+        listaContatos.replaceChildren()
         contatos.forEach(c => listaContatos.appendChild(criarCard(c)))
     } catch (err) {
-        listaContatos.innerHTML = ''
+        listaContatos.replaceChildren()
         mostrarErro('Não foi possível carregar os contatos.')
     }
 }
@@ -50,12 +68,12 @@ function mostrarErro(msg) {
 }
 
 function limparForm() {
-    inputNome.value = ''
-    inputCelular.value = ''
-    inputEmail.value = ''
+    inputNome.value     = ''
+    inputCelular.value  = ''
+    inputEmail.value    = ''
     inputEndereco.value = ''
-    inputCidade.value = ''
-    inputFoto.value = ''
+    inputCidade.value   = ''
+    inputFoto.value     = ''
 }
 
 btnSalvar.addEventListener('click', async () => {
@@ -73,7 +91,7 @@ btnSalvar.addEventListener('click', async () => {
         foto:     inputFoto.value.trim()
     }
 
-    btnSalvar.disabled = true
+    btnSalvar.disabled   = true
     btnSalvar.textContent = 'Salvando...'
 
     try {
@@ -83,7 +101,7 @@ btnSalvar.addEventListener('click', async () => {
     } catch (err) {
         mostrarErro('Erro ao salvar contato.')
     } finally {
-        btnSalvar.disabled = false
+        btnSalvar.disabled    = false
         btnSalvar.textContent = 'Salvar contato'
     }
 })
