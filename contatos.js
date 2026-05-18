@@ -27,7 +27,7 @@ export async function postContato(contato) {
 
     const response = await fetch(URL, options)
     if(!response.ok) throw new Error('Erro ao criar um novo contato!')
-        
+
     return response.json()
 }
 
@@ -36,7 +36,7 @@ export async function putContato(id, contato) {
     const options = {
         method: 'PUT',
         headers: {
-            'Content-Type': application/json
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(contato)
     }
@@ -45,4 +45,16 @@ export async function putContato(id, contato) {
     if(!response.ok) throw new Error('Erro ao atualizar contato')
 
     return response.json
+}
+
+
+export async function deleteContato(id) {
+    const options = {
+        method: 'DELETE'
+    }
+
+    const response = await fetch(`${URL}/${id}`, options)
+    if(!response.ok) throw new Error('Erro ao deletar contato')
+
+    return true
 }
