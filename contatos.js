@@ -27,4 +27,5 @@ export async function postContato(contato) {
 
     const response = fetch(URL, options)
     if(!response.ok) throw new Error('Erro ao criar um novo contato!')
+        return (await response).json()
 }
