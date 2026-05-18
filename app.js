@@ -11,6 +11,7 @@ const inputFoto     = document.getElementById('input-foto')
 const btnSalvar     = document.getElementById('btn-salvar')
 const listaContatos = document.getElementById('lista-contatos')
 const msgErro       = document.getElementById('msg-erro')
+const contatosCount = document.getElementById('contatos-count')
 
 function criarCard(contato) {
     const card = document.createElement('div')
@@ -55,6 +56,7 @@ async function carregarContatos() {
         const contatos = await getContatos()
         listaContatos.replaceChildren()
         contatos.forEach(c => listaContatos.appendChild(criarCard(c)))
+        contatosCount.textContent = `${contatos.length} contatos`
     } catch (err) {
         listaContatos.replaceChildren()
         mostrarErro('Não foi possível carregar os contatos.')
@@ -97,6 +99,7 @@ btnSalvar.addEventListener('click', async () => {
     try {
         const criado = await postContato(novoContato)
         listaContatos.prepend(criarCard(criado))
+        contatosCount.textContent = `${listaContatos.children.length} contatos`
         limparForm()
     } catch (err) {
         mostrarErro('Erro ao salvar contato.')
